@@ -1,0 +1,20 @@
+# Python
+*.pyc
+__pycache__/
+.pytest_cache/
+
+# VS Code
+.vscode/
+
+# Virtual Environment
+venv/
+.venv/
+
+# Flask
+instance/
+
+# MongoDB
+*.lock
+
+# Docker Secrets
+.secrets/

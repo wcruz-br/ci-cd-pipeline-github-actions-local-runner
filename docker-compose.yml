@@ -1,0 +1,63 @@
+services:
+
+  mongodb:
+    container_name: mongodb
+    image: mongodb/mongodb-community-server:8.0.3-ubuntu2204
+    secrets:
+      - db_root_user
+      - db_root_password
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME_FILE=/run/secrets/db_root_user
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/db_root_password
+      - TZ=America/Sao_Paulo
+    # ports:
+      # - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - app
+
+  app:
+    container_name: app
+    build: .
+    # ports:
+      # - "5000:5000"
+    secrets:
+      - db_app_user
+      - db_app_password
+    environment:
+      - CONN_STR=mongodb://${db_app_user}:${db_app_password}@mongodb:27017/?authSource=admin
+      - TZ=America/Sao_Paulo
+    networks:
+      - app
+    depends_on:
+      - mongodb
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    ports:
+      - "80:80"
+    environment:
+      - TZ=America/Sao_Paulo
+    networks:
+      - app
+    depends_on:
+      - app
+
+
+networks:
+  app:
+
+volumes:
+  mongodb-data:
+
+secrets:
+   db_root_user:
+     file: .secrets/db_root_user.txt
+   db_root_password:
+     file: .secrets/db_root_password.txt
+   db_app_user:
+     file: .secrets/db_app_user.txt
+   db_app_password:
+     file: .secrets/db_app_password.txt
