@@ -26,9 +26,9 @@ This project prioritizes security by leveraging Docker Compose's `secrets` funct
 
 * **Improved Portability and Maintainability:** Decoupling secrets from the application image improves portability and simplifies maintenance.  Images can be shared more safely without the risk of embedded credentials being inadvertently exposed.
 
-While Docker Compose's `secrets` functionality doesn't provide encryption at rest like Docker Swarm secrets, it significantly improves security compared to storing credentials directly in application code or configuration files. It provides a good balance between security and ease of use for development environments.  For production environments or even stronger security during development, consider using a dedicated secrets management solution like HashiCorp Vault, AWS Secrets Manager, or Google Cloud Secret Manager.
+While Docker Compose's `secrets` functionality doesn't provide encryption at rest like Docker Swarm secrets, it significantly improves security compared to storing credentials directly in application code or configuration files. It provides a good balance between security and ease of use for development environments.
 
-
+For production environments or even stronger security during development, consider using a dedicated secrets management solution like HashiCorp Vault, AWS Secrets Manager, or Google Cloud Secret Manager.
 
 ## Application Details
 
