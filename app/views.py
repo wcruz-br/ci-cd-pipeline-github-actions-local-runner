@@ -6,32 +6,32 @@ views = Blueprint('views', __name__)
 @views.route("/")
 def home():
 
-    # Obtem quantidade de visitas
-    quantidade_de_visitas = current_app.db.visitas.count_documents({})
+    # Gets number of visits
+    number_of_visits = current_app.db.visits.count_documents({})
 
-    # Monta tabela de visitas, lendo a coleção visitas por ordem de timestamp
-    tabela_de_visitas = "<table><tr><th>Registro de visitas</th></tr>"
-    cursor = current_app.db.visitas.find({}, {'_id': 0}).sort([('timestamp',-1)])
-    for documento in cursor:
-        tabela_de_visitas += f"<tr><td>{documento['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</td></tr>"
-    tabela_de_visitas += "</table>"
+    # Assembles visit table, reading the visit collection in reversed timestamp order
+    visit_table = "<table><tr><th>Visit Log</th></tr>"
+    cursor = current_app.db.visits.find({}, {'_id': 0}).sort([('timestamp',-1)])
+    for document in cursor:
+        visit_table += f"<tr><td>{document['timestamp'].strftime('%Y-%m-%d %H:%M:%S')}</td></tr>"
+    visit_table += "</table>"
 
-    # Monta resposta (antes de inserir no banco, assim só lista os outros)
-    resposta =  "<h2>Olá, pessoa!</h2><br/>" \
-                f"<p>Você é o visitante {quantidade_de_visitas + 1} dessa biboca</p><br/>" \
-                "<p>Veja quando foram as visitas anteriores:</p><br/><br/>" \
-                f"{tabela_de_visitas}"
+    # Assembles the response (before inserting into the database, so it only lists the others)
+    response =  "<h2>Hello, person!</h2><br/>" \
+                f"<p>You are visitor {number_of_visits + 1} to this place</p><br/>" \
+                "<p>See when the previous visits were here:</p><br/><br/>" \
+                f"{visit_table}"
 
-    # Cria o índice da coleção se ele não existir
-    index_info = current_app.db.visitas.index_information()
+    # Creates the collection index if it doesn't exist
+    index_info = current_app.db.visits.index_information()
     if "timestamp_1" not in index_info:
-        # Cria o índice se não existir
-        current_app.db.visitas.create_index([("timestamp", -1)], name="timestamp_idx")
+        # Creates the index if it doesn't exist
+        current_app.db.visits.create_index([("timestamp", -1)], name="timestamp_idx")
 
-    # Insere um documento na coleção 'visitas'
-    current_app.db.visitas.insert_one({
+    # Inserts a document into the 'visits' collection
+    current_app.db.visits.insert_one({
         "timestamp": datetime.now()
     })
 
-    # Retorna a resposta
-    return resposta
+    # Returns the response
+    return response

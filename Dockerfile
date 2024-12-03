@@ -1,19 +1,19 @@
-# Use uma imagem base do Python
+# Use a base Python image
 FROM python:3.12.0-slim
 
-# Defina o diretório de trabalho
+# Define the working directory
 WORKDIR /
 
-# Copie o arquivo de requisitos e instale as dependências
+# Copy the requirements file and install dependencies
 RUN mkdir -p /app
 COPY ./app/requirements.txt /app
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copie os arquivos da aplicação
+# Copy the application files
 COPY ./app /app
 
-# Exponha a porta que o Gunicorn usará
+# Expose the port that Gunicorn will use
 EXPOSE 5000
 
-# Comando para iniciar a aplicação
+# Command to start the application
 CMD ["gunicorn", "--config", "/app/gunicorn.conf.py", "app.wsgi:app"]
