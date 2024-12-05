@@ -17,8 +17,7 @@ def home():
     visit_table += "</table>"
 
     # Assembles the response (before inserting into the database, so it only lists the others)
-    response =  f"{current_app.config['MONGO_URI']}" \
-                "<h2>Hello, person!</h2><br/>" \
+    response =  "<h2>Hello, person!</h2><br/>" \
                 f"<p>You are visitor {number_of_visits + 1} to this place</p><br/>" \
                 "<p>See when the previous visits were here:</p><br/><br/>" \
                 f"{visit_table}"
