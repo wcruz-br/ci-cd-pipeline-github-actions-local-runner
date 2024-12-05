@@ -17,9 +17,9 @@ def home():
     visit_table += "</table>"
 
     # Assembles the response (before inserting into the database, so it only lists the others)
-    response =  "<h2>Hello, person!</h2><br/>" \
-                f"<p>You are visitor {number_of_visits + 1} to this place</p><br/>" \
-                "<p>See when the previous visits were here:</p><br/><br/>" \
+    response =  "<h2>Hello, person!</h2>" \
+                f"<p>You are visitor {number_of_visits + 1} to this place</p>" \
+                "<p>See when the previous visitors were here:</p>" \
                 f"{visit_table}"
 
     # Creates the collection index if it doesn't exist
